@@ -1,0 +1,118 @@
+﻿<Window x:Class="CarSales.Client.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Отчёт по продажам" Height="600" Width="1200">
+
+    <Window.Resources>
+
+        <!-- Числа по правому краю -->
+        <Style x:Key="RightAlignStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+        </Style>
+
+        <!-- Жирный итог -->
+        <Style x:Key="BoldRightAlignStyle" TargetType="TextBlock" BasedOn="{StaticResource RightAlignStyle}">
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <!-- Заголовки по центру -->
+        <Style x:Key="CenterAlignHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Подсветка, если > 25 млн -->
+        <Style x:Key="HighlightIfOver25M" TargetType="TextBlock" BasedOn="{StaticResource RightAlignStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding}" Value="25000001">
+                    <Setter Property="Background" Value="LightCoral"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding}" Value="25000000">
+                    <!-- Не подсвечиваем ровно 25 млн -->
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Фильтры -->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+            <TextBlock Text="Год:" VerticalAlignment="Center" Margin="0 0 5 0"/>
+            <TextBox Width="100" Text="{Binding InputYear}" Margin="0 0 15 0"/>
+
+            <TextBlock Text="Модель:" VerticalAlignment="Center" Margin="0 0 5 0"/>
+            <TextBox Width="200" Text="{Binding InputModel}" Margin="0 0 15 0"/>
+
+            <Button Content="Показать" Command="{Binding LoadDataCommand}" Width="100"/>
+        </StackPanel>
+
+        <!-- Таблица -->
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Reports}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  HeadersVisibility="Column">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Марка" Binding="{Binding Brand}" Width="120"/>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="150"/>
+                <DataGridTextColumn Header="Год" Binding="{Binding Year}" Width="60"/>
+
+                <!-- Месяцы с подсветкой -->
+                <DataGridTextColumn Header="Январь" Binding="{Binding MonthlySales[Январь]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Февраль" Binding="{Binding MonthlySales[Февраль]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Март" Binding="{Binding MonthlySales[Март]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Апрель" Binding="{Binding MonthlySales[Апрель]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Май" Binding="{Binding MonthlySales[Май]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Июнь" Binding="{Binding MonthlySales[Июнь]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Июль" Binding="{Binding MonthlySales[Июль]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Август" Binding="{Binding MonthlySales[Август]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Сентябрь" Binding="{Binding MonthlySales[Сентябрь]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Октябрь" Binding="{Binding MonthlySales[Октябрь]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Ноябрь" Binding="{Binding MonthlySales[Ноябрь]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+                <DataGridTextColumn Header="Декабрь" Binding="{Binding MonthlySales[Декабрь]}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}"/>
+
+                <!-- Итог -->
+                <DataGridTextColumn Header="Итого" Binding="{Binding Total}"
+                                    ElementStyle="{StaticResource BoldRightAlignStyle}"
+                                    HeaderStyle="{StaticResource CenterAlignHeaderStyle}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Экспорт -->
+        <Button Grid.Row="2" Content="Экспорт в Excel" Command="{Binding ExportExcelCommand}"
+                Width="150" HorizontalAlignment="Right" Margin="0 10 0 0"/>
+    </Grid>
+</Window>

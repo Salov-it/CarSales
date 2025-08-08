@@ -24,9 +24,17 @@ namespace CarSales.Application.CQRS.Queries.GetMonthlySales
         {
             var orders = await _orderReadRepository.GetOrdersByYearAsync(request.Year);
 
-            // Если в запросе указана модель — фильтруем
+            // Фильтр по модели
             if (!string.IsNullOrWhiteSpace(request.Model))
-                orders = orders.Where(o => o.Model.Name.Equals(request.Model, StringComparison.OrdinalIgnoreCase)).ToList();
+                orders = orders
+                    .Where(o => o.Model.Name.Equals(request.Model, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+            var monthNames = new[]
+            {
+                "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+                "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+            };
 
             return orders
                 .GroupBy(o => new { Brand = o.Brand.Name, Model = o.Model.Name })
@@ -39,9 +47,14 @@ namespace CarSales.Application.CQRS.Queries.GetMonthlySales
                         Year = request.Year
                     };
 
+                    
+                    foreach (var month in monthNames)
+                        report.MonthlySales[month] = 0m;
+
+                    
                     foreach (var order in g)
                     {
-                        var monthName = order.OrderDate.ToString("MMMM", CultureInfo.InvariantCulture);
+                        var monthName = monthNames[order.OrderDate.Month - 1];
                         report.MonthlySales[monthName] += order.Quantity * order.UnitPrice;
                     }
 
@@ -49,6 +62,8 @@ namespace CarSales.Application.CQRS.Queries.GetMonthlySales
                 })
                 .ToList();
         }
+
     }
-  
 }
+  
+

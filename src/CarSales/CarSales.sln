@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36327.8 d17.14
+VisualStudioVersion = 17.14.36327.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSales.Domain", "CarSales.Domain\CarSales.Domain.csproj", "{B406481B-5F15-4745-AF08-1BAF4F6307B4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSales.Infrastructure", "CarSales.Infrastructure\CarSales.Infrastructure.csproj", "{8DFE6A6F-FB28-4E56-9982-11870FF4C553}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSales.Client", "CarSales.Client\CarSales.Client.csproj", "{B58B30CF-546E-48AF-BD39-A8DB3431E4F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8DFE6A6F-FB28-4E56-9982-11870FF4C553}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DFE6A6F-FB28-4E56-9982-11870FF4C553}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DFE6A6F-FB28-4E56-9982-11870FF4C553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B58B30CF-546E-48AF-BD39-A8DB3431E4F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B58B30CF-546E-48AF-BD39-A8DB3431E4F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B58B30CF-546E-48AF-BD39-A8DB3431E4F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B58B30CF-546E-48AF-BD39-A8DB3431E4F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

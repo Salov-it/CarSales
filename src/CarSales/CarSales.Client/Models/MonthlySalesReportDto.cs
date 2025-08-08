@@ -4,16 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarSales.Application.DTOs
+namespace CarSales.Client.Models
 {
-    public class MonthlySalesReportDto
+   public class MonthlySalesReportDto
     {
         public string Brand { get; set; }
         public string Model { get; set; }
         public int Year { get; set; }
-
-        public Dictionary<string, decimal> MonthlySales { get; set; } = new();
-
-        public decimal Total => MonthlySales.Values.Sum();
+        public Dictionary<string, decimal> MonthlySales { get; set; }
+        public decimal Total { get; set; }
     }
 }

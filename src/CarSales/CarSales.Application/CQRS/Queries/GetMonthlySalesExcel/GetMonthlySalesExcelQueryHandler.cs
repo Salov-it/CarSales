@@ -24,6 +24,7 @@ namespace CarSales.Application.CQRS.Queries.GetMonthlySalesExcel
 
         public async Task<byte[]> Handle(GetMonthlySalesExcelQuery request, CancellationToken ct)
         {
+
             var orders = await _orderRepository.GetOrdersByYearAsync(request.Year);
 
             if (!string.IsNullOrWhiteSpace(request.Model))
@@ -32,6 +33,12 @@ namespace CarSales.Application.CQRS.Queries.GetMonthlySalesExcel
                     .Where(o => o.Model.Name.Equals(request.Model, StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
+
+            var allMonths = new[]
+            {
+                "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+                "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+            };
 
             var reports = orders
                 .GroupBy(o => new { BrandName = o.Brand.Name, ModelName = o.Model.Name })
@@ -44,9 +51,15 @@ namespace CarSales.Application.CQRS.Queries.GetMonthlySalesExcel
                         Year = request.Year
                     };
 
+                    // Инициализация всех месяцев нулями
+                    foreach (var m in allMonths)
+                        report.MonthlySales[m] = 0m;
+
+                    // Заполнение
                     foreach (var order in g)
                     {
-                        string monthName = order.OrderDate.ToString("MMMM", new CultureInfo("ru-RU"));
+                        var monthIndex = order.OrderDate.Month - 1; // 0-based
+                        var monthName = allMonths[monthIndex];
                         report.MonthlySales[monthName] += order.Quantity * order.UnitPrice;
                     }
 
@@ -54,8 +67,8 @@ namespace CarSales.Application.CQRS.Queries.GetMonthlySalesExcel
                 })
                 .ToList();
 
-
             return _excelExportService.ExportMonthlySalesToExcel(reports);
         }
+
     }
 }
